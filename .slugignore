@@ -1,0 +1,5 @@
+build/
+.gradle/
+docs/
+node_modules/
+tests/
