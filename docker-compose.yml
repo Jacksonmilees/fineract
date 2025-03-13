@@ -1,0 +1,32 @@
+version: "3.8"
+
+services:
+
+  db:
+    image: mysql:5.7  # Use the MySQL Docker image instead of MariaDB
+    container_name: mysql-fineract
+    environment:
+      MYSQL_ROOT_PASSWORD: root  # Set your root password here
+      MYSQL_DATABASE: fineract  # Specify the database name you want to use
+    ports:
+      - "3306:3306"  # Expose MySQL on port 3306
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "--host=localhost", "--password=rootpassword"]
+      interval: 30s
+      retries: 3
+      start_period: 30s
+      timeout: 30s
+
+  fineract:
+    extends:
+      file: ./config/docker/compose/fineract.yml
+      service: fineract
+    ports:
+      - "8443:8443"
+    depends_on:
+      db:
+        condition: service_healthy
+    env_file:
+      - ./config/docker/env/fineract.env
+      - ./config/docker/env/fineract-common.env
+      - ./config/docker/env/fineract-mysql.env  # Change to MySQL-related environment file if necessary
