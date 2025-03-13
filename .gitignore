@@ -1,5 +1,4 @@
 *.class
-*.jar
 *.war
 *.ear
 .classpath
@@ -33,3 +32,4 @@ gradleExp/
 
 .run/
 .java-version
+!gradle/wrapper/gradle-wrapper.jar
